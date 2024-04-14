@@ -1,0 +1,29 @@
+{% extends 'service/base.html' %}
+
+{% block content%}
+
+<div class="container justify-content-center">
+    <div class="row text-center">
+
+        <div class="col-8 mh-45">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h2 class="card-title pricing-card-title">Письмо</h2>
+                </div>
+                <div class="card-body">
+
+
+
+                        <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                            <li class="mb-4 fw-bold fs-4">Тема: {{ object.title }}</li>
+                            <li class="text-start fw-bold fs-4">Сообщение: {{ object.text }} </li>
+
+                        </ul>
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

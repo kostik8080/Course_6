@@ -1,0 +1,35 @@
+{% extends 'service/base.html' %}
+
+{% block content%}
+
+<div class="container justify-content-center">
+    <div class="row text-start">
+
+        <div class="col-8 mh-45">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+
+                </div>
+                <div class="card-body">
+                        {% for client in clients %}
+                        <h4 class="card-title pricing-card-title">Email клиента: {{ client.email }}</h4>
+                        <h4 class="card-title pricing-card-title">Имя клиента: {{ client.FIO }}</h4>
+                        {% if not forloop.last %}
+                            <hr class="p-1">
+                        {% endif %}
+                        {% endfor %}
+
+                        <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                            <li class="mb-4 text-start">{{ object.start_time }}</li>
+                            <li class="text-start ">Переодичность: {{ object.periodicity }} </li>
+                            <li class="text-start">Статус: {{ object.status }}</li>
+                            <li class="text-start">Сообщение: {{ object.mailing_list.text }}</li>
+                        </ul>
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

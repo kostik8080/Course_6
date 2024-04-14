@@ -1,0 +1,52 @@
+{% extends "service/base.html" %}
+{% block content %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-1">Страница всех писем</h1>
+</div>
+
+<div class="container col-8 mt-2 mb-5">
+
+</div>
+<div class="container col-10">
+    <div class="card">
+        <div class="card-header text-center">
+            <h1>Письма</h1>
+        </div>
+        <div class="card-body">
+            <div class="col-12 text-center">
+                {% for object in object_list %}
+                <table class="table">
+                    <tr>
+                        <th><h4>№</h4></th>
+                        <th><h4>Тема письма</h4></th>
+                        <th><h4>Подробности письма</h4></th>
+                        <th><h4>Редактирование письма</h4></th>
+                        <th><h4>Удаление письма</h4></th>
+                    </tr>
+
+                    <tr>
+                        <td><h4>{{ object.pk }}</h4></td>
+                        <td><h4>{{ object.title }}</h4></td>
+
+                        <td><h4>
+                            <a href="{% url 'service:message_detail' object.pk %}" class="btn btn-lg btn-primary">Подробно</a>
+                        </h4></td>
+                        <td><h4>
+                            <a class="btn btn-lg btn-warning"
+                               href="{% url 'service:message_update' object.pk %}">Исправить</a>
+                        </h4></td>
+                        <td><h4>
+                            <a class="btn btn-lg btn-danger"
+                               href="{% url 'service:message_delete' object.pk %}">Удалить</a>
+                        </h4></td>
+
+                    </tr>
+
+                </table>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
