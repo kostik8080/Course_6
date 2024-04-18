@@ -2,6 +2,8 @@ from datetime import timedelta, time
 
 from django.db import models
 
+from users.models import User
+
 NULLABLE = {'null': True, 'blank': True}
 
 
@@ -9,6 +11,7 @@ class Client(models.Model):
     FIO = models.CharField(max_length=150, verbose_name='ФИО')
     email = models.EmailField(max_length=150, verbose_name='почта', unique=True)
     comment = models.TextField(verbose_name='комментирий', **NULLABLE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='пользователь', **NULLABLE)
 
     def __str__(self):
         return f"{self.FIO} {self.email}"
@@ -22,6 +25,7 @@ class Client(models.Model):
 class Message(models.Model):
     title = models.CharField(max_length=100, verbose_name='тема письма')
     text = models.TextField(verbose_name='тело письма')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='пользователь', **NULLABLE)
 
     def __str__(self):
         return self.title
@@ -59,6 +63,7 @@ class MailingSettings(models.Model):
     mailing_list = models.ForeignKey(Message, on_delete=models.CASCADE, verbose_name='рассылка',
                                      related_name='messages')
     clients = models.ManyToManyField(Client, verbose_name='клиенты рассылки')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='пользователь', **NULLABLE)
 
     def __str__(self):
         return f'time: {self.start_time}, periodicity: {self.periodicity}, status: {self.status}'
@@ -66,6 +71,10 @@ class MailingSettings(models.Model):
     class Meta:
         verbose_name = 'настройки рассылки'
         verbose_name_plural = 'настройки рассылки'
+
+        permissions = [
+            ('change_status', 'Может отключать рассылку')
+        ]
 
 
 class Log(models.Model):

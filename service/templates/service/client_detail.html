@@ -1,0 +1,31 @@
+{% extends 'service/base.html' %}
+
+{% block content%}
+
+<div class="container justify-content-center">
+    <div class="row text-start">
+
+        <div class="col-6 mh-45">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header h2 text-center">
+                    Клиент
+                </div>
+                <div class="card-body">
+
+                    <h4 class="card-title pricing-card-title ">Имя клиента: {{ object.FIO }}<br> Email Клиента:
+                        {{ object.email }}<br> Коментарий {{object.comment}}</h4>
+
+
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+{% endblock %}

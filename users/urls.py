@@ -5,6 +5,7 @@ from django.views.generic import TemplateView
 
 from users import views
 from users.apps import UsersConfig
+from users.views import UsersListView, blocking
 
 app_name = UsersConfig.name
 
@@ -34,5 +35,7 @@ urlpatterns = [
     path('register_done/', TemplateView.as_view(template_name='users/register_done.html'), name='register_done'),
     path('register_error/', TemplateView.as_view(template_name='users/register_error.html'),
          name='register_error'),
+    path('user_info/', UsersListView.as_view(), name='user_list'),
+    path('users/blocking/<int:pk>', blocking, name='users_blocking')
 
 ]

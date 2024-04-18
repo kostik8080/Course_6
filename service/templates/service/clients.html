@@ -12,26 +12,59 @@
         </div>
         <div class="card-body">
             <div class="col-12">
+
                 <table class="table text-center">
-                    <tr>
-                        <th><h4>ФИО клиента</h4></th>
-                        <th><h4>email клиента</h4></th>
-                        <th><h4>Комментарий</h4></th>
-                        <th><h4>Исправить данные</h4></th>
-                        <th><h4>Удалить клиента</h4></th>
-                    </tr>
+                    <thead>
+                        <tr>
+                            <th><h4>ФИО клиента</h4></th>
+                            <th><h4>email клиента</h4></th>
+
+                            <th><h4>Подробнее</h4></th>
+                            {% if user.is_superuser or user.email == object.user.email %}
+                                <th><h4>Исправить данные</h4></th>
+                            {% endif %}
+                            {% if user.is_superuser %}
+                                <th><h4>Удалить клиента</h4></th>
+                            {% endif %}
+                        </tr>
+                    </thead>
                     {% for object in object_list %}
-                    <tr>
-                        <td><h4>{{ object.FIO }}</h4></td>
-                        <td><h4>{{ object.email }}</h4></td>
-                        <td><h4>{{ object.comment }}</h4></td>
-                        <td><h4><a class="btn btn-lg btn-warning"
-                                   href="{% url 'service:clients_update' object.pk %}">Исправить</a></h4></td>
-                        <td><h4><a class="btn btn-lg btn-danger"
-                                   href="{% url 'service:clients_delete' object.pk %}">Удалить</a></h4></td>
-                        {% endfor %}
-                    </tr>
+                        {% if user.is_superuser %}
+                            <tbody>
+                                <tr>
+                                    <td><h4>{{ object.FIO }}</h4></td>
+                                    <td><h4>{{ object.email }}</h4></td>
+
+                                    <td><h4><a class="btn btn-lg btn-primary"
+                                                   href="{% url 'service:clients_detail' object.pk %}">Подробнее</a></h4></td>
+                                    {% if user.is_superuser%}
+                                        <td><h4><a class="btn btn-lg btn-warning"
+                                                   href="{% url 'service:clients_update' object.pk %}">Исправить</a></h4></td>
+                                    {% endif %}
+                                    {% if user.is_superuser %}
+                                        <td><h4><a class="btn btn-lg btn-danger"
+                                                   href="{% url 'service:clients_delete' object.pk %}">Удалить</a></h4></td>
+                                    {% endif %}
+                                </tr>
+                            </tbody>
+                        {% elif user.email == object.user.email %}
+                            <tbody>
+                                <tr>
+                                    <td><h4>{{ object.FIO }}</h4></td>
+                                    <td><h4>{{ object.email }}</h4></td>
+                                    <td><h4>{{ object.comment }}</h4></td>
+                                    <td><h4><a class="btn btn-lg btn-warning"
+                                               href="{% url 'service:clients_update' object.pk %}">Исправить</a></h4></td>
+                                    {% if user.is_superuser %}
+                                        <td><h4><a class="btn btn-lg btn-danger"
+                                                   href="{% url 'service:clients_delete' object.pk %}">Удалить</a></h4></td>
+                                    {% endif %}
+                                </tr>
+                            </tbody>
+                        {%endif%}
+                    {% endfor %}
                 </table>
+
             </div>
         </div>
     </div>

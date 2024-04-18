@@ -1,0 +1,14 @@
+[
+{
+    "model": "auth.group",
+    "pk": 1,
+    "fields": {
+        "name": "maderator",
+        "permissions": [
+            53,
+            40,
+            48
+        ]
+    }
+}
+]

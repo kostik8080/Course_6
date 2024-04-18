@@ -14,36 +14,82 @@
         </div>
         <div class="card-body">
             <div class="col-12 text-center">
-                {% for object in object_list %}
-                <table class="table">
-                    <tr>
-                        <th><h4>№</h4></th>
-                        <th><h4>Тема письма</h4></th>
-                        <th><h4>Подробности письма</h4></th>
-                        <th><h4>Редактирование письма</h4></th>
-                        <th><h4>Удаление письма</h4></th>
-                    </tr>
 
-                    <tr>
-                        <td><h4>{{ object.pk }}</h4></td>
-                        <td><h4>{{ object.title }}</h4></td>
 
-                        <td><h4>
-                            <a href="{% url 'service:message_detail' object.pk %}" class="btn btn-lg btn-primary">Подробно</a>
-                        </h4></td>
-                        <td><h4>
-                            <a class="btn btn-lg btn-warning"
-                               href="{% url 'service:message_update' object.pk %}">Исправить</a>
-                        </h4></td>
-                        <td><h4>
-                            <a class="btn btn-lg btn-danger"
-                               href="{% url 'service:message_delete' object.pk %}">Удалить</a>
-                        </h4></td>
+                    <table class="table">
+                        <thead>
+                        <tr>
 
-                    </tr>
+                            <th scope="col"><h4>Тема письма</h4></th>
+                            {% if user.is_superuser %}
+                            <th colspan="6"><h4>Сообщение</h4></th>
+                            {% else %}
+                                <th colspan="6"><h4>Сообщение</h4></th>
+                            {% endif %}
+                            <th scope="col"><h4>Подробности письма</h4></th>
 
-                </table>
-                {% endfor %}
+
+                            {% if user.is_superuser %}
+                                <th scope="col"><h4>Редактирование письма</h4></th>
+                            {% else %}
+                                <th scope="col"><h4>Редактирование письма</h4></th>
+                            {% endif %}
+                            {% if user.is_superuser %}
+                            <th scope="col"><h4>Удаление письма</h4></th>
+                            {% endif %}
+
+                        </tr>
+                        </thead>
+                        <tr>
+
+                            {% for object in object_list %}
+                                {% if user.email == object.user.email %}
+                                <tr>
+                                    <td>{{ object.title }}</td>
+                                    <td colspan="6">{{ object.text|truncatechars:100 }}</td>
+                                    <td>
+                                        <div class="text-center">
+                                            <a href="{% url 'service:message_detail' object.pk %}" class="btn btn-lg btn-primary">Подробная информация</a>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="text-center">
+                                            <a href="{% url 'service:message_update' object.pk %}" class="btn btn-lg btn-warning">Исправить</a>
+                                        </div>
+                                    </td>
+                                </tr>
+
+
+
+                                {% elif user.is_staff or user.superuser %}
+                                <tr>
+                                    <td>{{ object.title }}</td>
+                                    <td colspan="6">{{ object.text|truncatechars:100 }}</td>
+                                    <td>
+                                        <div class="text-center">
+                                            <a href="{% url 'service:message_detail' object.pk %}" class="btn btn-lg btn-primary">Подробная информация</a>
+                                        </div>
+                                    </td>
+                                    {% if user.is_superuser %}
+                                    <td>
+                                        <div class="text-center">
+                                            <a href="{% url 'service:message_update' object.pk %}" class="btn btn-lg btn-warning">Исправить</a>
+                                        </div>
+                                    </td>
+                                    {% endif %}
+                                    {% if user.is_superuser %}
+                                    <td>
+                                        <div class="text-center">
+                                            <a href="{% url 'service:message_delete' object.pk %}" class="btn btn-lg btn-danger">Удалить</a>
+                                        </div>
+                                    </td>
+                                    {% endif %}
+                                </tr>
+                                {% endif %}
+                            {% endfor %}
+
+                    </table>
+
             </div>
         </div>
     </div>

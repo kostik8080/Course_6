@@ -1,13 +1,14 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy, reverse
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.views.generic import CreateView, DetailView, UpdateView
+from django.views.generic import CreateView, DetailView, UpdateView, ListView
 
 from users.forms import UserRegisterForm, UserProfileForm, PasswordForm
 from users.models import User
@@ -35,7 +36,7 @@ class RegisterView(CreateView):
         return super().form_invalid(form)
 
 
-class ProfileView(UpdateView):
+class ProfileView(LoginRequiredMixin, UpdateView):
     model = User
     form_class = UserProfileForm
     success_url = reverse_lazy('users:profile')
@@ -67,3 +68,23 @@ class UserPasswordReset(PasswordResetConfirmView):
     form_class = PasswordForm
     success_url = reverse_lazy("users:password_reset_complete")
     template_name = "users/password_reset_confirm.html"
+
+
+class UsersListView(LoginRequiredMixin, ListView):
+    model = User
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.user.is_superuser or self.request.user.is_staff:
+
+            context['users'] = User.objects.all()
+        return context
+
+def blocking(request, pk):
+    blocked_user = get_object_or_404(User, pk=pk)
+    if blocked_user.is_active:
+        blocked_user.is_active = False
+    else:
+        blocked_user.is_active = True
+    blocked_user.save()
+    return redirect(reverse('users:user_list'))

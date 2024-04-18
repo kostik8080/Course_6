@@ -1,0 +1,55 @@
+{% extends "service/base.html" %}
+{% block content %}
+
+
+<div class="container col-10">
+
+    <div class="card">
+        <div class="card-header text-center">
+            <h1>Пользователи</h1>
+        </div>
+        <div class="card-body">
+            <div class="col-12 text-center">
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                         <th><h4>Имя</h4></th>
+                        <th><h4>Фамилия</h4></th>
+                        <th><h4>Email</h4></th>
+                        <th><h4>Статус</h4></th>
+
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for object in users %}
+                    <tr>
+                        <td><h4>{{ object.first_name }}</h4></td>
+                        <td><h4>{{ object.last_name }}</h4></td>
+                        <td><h4>{{ object.email }}</h4></td>
+                        {% if object.is_superuser %}
+                        <td><h4>Администратор</h4></td>
+                        {% elif object.is_staff %}
+                        <td><h4>Мадератор</h4></td>
+                        {% elif object.is_active %}
+                        <td><h4>Пользователь</h4></td>
+                        <td><a href="{% url 'users:users_blocking' object.pk %}" class="btn btn-outline-success">Заблокировать</a></td>
+                        {% else %}
+                        <td><h4>Пользователь</h4></td>
+                        <td><a href="{% url 'users:users_blocking' object.pk %}" class="btn btn-outline-success">Разблокировать</a></td>
+                        {% endif %}
+
+
+
+                    </tr>
+                    </tbody>
+                    {% endfor %}
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
