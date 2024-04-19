@@ -21,6 +21,7 @@ class ClientForm(StyleFormMixin, ModelForm):
 
 
 class MailingSetingForm(StyleFormMixin, forms.ModelForm):
+    """Form for MailingSettings"""
     class Meta:
         model = MailingSettings
         exclude = ('status', 'user')
