@@ -57,11 +57,19 @@
                                             <a href="{% url 'service:message_update' object.pk %}" class="btn btn-lg btn-warning">Исправить</a>
                                         </div>
                                     </td>
+                                    {% if user.is_superuser %}
+                                    <td>
+                                        <div class="text-center">
+                                            <a href="{% url 'service:message_delete' object.pk %}" class="btn btn-lg btn-danger">Удалить</a>
+                                        </div>
+                                    </td>
+                                    {% endif %}
                                 </tr>
 
 
 
-                                {% elif user.is_staff or user.superuser %}
+
+                                {% elif user.is_staff or user.is_superuser %}
                                 <tr>
                                     <td>{{ object.title }}</td>
                                     <td colspan="6">{{ object.text|truncatechars:100 }}</td>
