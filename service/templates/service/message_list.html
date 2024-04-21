@@ -34,9 +34,9 @@
                             {% else %}
                                 <th scope="col"><h4>Редактирование письма</h4></th>
                             {% endif %}
-                            {% if user.is_superuser %}
+
                             <th scope="col"><h4>Удаление письма</h4></th>
-                            {% endif %}
+
 
                         </tr>
                         </thead>
@@ -57,13 +57,13 @@
                                             <a href="{% url 'service:message_update' object.pk %}" class="btn btn-lg btn-warning">Исправить</a>
                                         </div>
                                     </td>
-                                    {% if user.is_superuser %}
+
                                     <td>
                                         <div class="text-center">
                                             <a href="{% url 'service:message_delete' object.pk %}" class="btn btn-lg btn-danger">Удалить</a>
                                         </div>
                                     </td>
-                                    {% endif %}
+
                                 </tr>
 
 

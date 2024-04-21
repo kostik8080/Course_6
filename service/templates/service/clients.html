@@ -55,10 +55,10 @@
                                     <td><h4>{{ object.comment }}</h4></td>
                                     <td><h4><a class="btn btn-lg btn-warning"
                                                href="{% url 'service:clients_update' object.pk %}">Исправить</a></h4></td>
-                                    {% if user.is_superuser %}
-                                        <td><h4><a class="btn btn-lg btn-danger"
-                                                   href="{% url 'service:clients_delete' object.pk %}">Удалить</a></h4></td>
-                                    {% endif %}
+
+                                    <td><h4><a class="btn btn-lg btn-danger"
+                                               href="{% url 'service:clients_delete' object.pk %}">Удалить</a></h4></td>
+
                                 </tr>
                             </tbody>
                         {%endif%}

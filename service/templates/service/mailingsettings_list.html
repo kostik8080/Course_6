@@ -5,9 +5,6 @@
 </div>
 
 <div class="container col-8 mt-2 mb-5">
-
-
-<div class="container col-12">
     <div class="bt-group mt-3 mb-3">
         <div class="col-8">
 
@@ -18,98 +15,95 @@
                 <a class="p-2 btn btn-outline-primary btn-block btn-lg ms-2" href="{% url 'service:message_list' %}">
                     Письма</a>
         </div>
+</div>
 
-    </div>
-    <div class="container col-12">
-        <div class="card">
-            <div class="card-header text-center">
-                <h1>Рассылки</h1>
-            </div>
-            <div class="card-body">
-                <div class="col-12 text-center">
-                    {% for object in object_list %}
-                        {% if user.is_superuser or user.is_staff %}
-                             <table class="table">
-                                    <tr>
-                                        <th><h4>Время рассылки</h4></th>
-                                        <th><h4>Статус рассылки</h4></th>
-                                        <th><h4>Переодичность рассылки</h4></th>
-                                        <th><h4>Подробности рассылки</h4></th>
-                                        <th><h4>Редактирование рассылки</h4></th>
-                                        {% if user.is_superuser %}
-                                            <th><h4>Удаление рассылки</h4></th>
-                                        {% endif %}
-                                    </tr>
+<div class="container col-12">
+    <div class="card">
+        <div class="card-header text-center">
+            <h1>Рассылки</h1>
+        </div>
+        <div class="card-body">
+            <div class="col-12 text-center">
+                 <table class="table">
+                        <thead>
+                        <tr>
 
-                                    <tr>
-
-                                        <td><h4>{{ object.start_time }}</h4></td>
-                                        <td><h4>{{ object.status }}</h4></td>
-                                        <td><h4>{{ object.periodicity }}</h4></td>
+                            <th scope="col"><h4>Начало рассылки</h4></th>
+                            <th scope="col"><h4>Конец рассылки</h4></th>
+                            <th scope="col"><h4>переодичность</h4></th>
+                            <th scope="col"><h4>Статус</h4></th>
+                            <th scope="col"><h4>Подробная информация</h4></th>
+                            <th scope="col"><h4>Изменение рассылки</h4></th>
+                            <th scope="col"><h4>Удаление рассылки</h4></th>
 
 
-                                        <td><h4>
+                        </tr>
+                        </thead>
 
-                                            <a href="{% url 'service:mailing_detail' object.pk %}" class="btn btn-lg btn-primary">Подробно</a>
 
-                                        </h4></td>
-                                        <td><h4>
-
-                                            <a class="btn btn-lg btn-warning"
-                                               href="{% url 'service:mailing_update' object.pk %}">Исправить</a>
-
-                                        </h4></td>
-                                        <td><h4>
-                                            {% if user.is_superuser %}
-                                            <a class="btn btn-lg btn-danger"
-                                               href="{% url 'service:mailing_delete' object.pk %}">Удалить</a>
-                                            {% endif %}
-                                        </h4></td>
-
-                                    </tr>
-
-                                </table>
-
-                        {% elif user.email == object.user.email %}
-                            <table class="table">
+                            {% for object in object_list %}
+                                {% if user.email == object.user.email %}
                                 <tr>
-                                    <th><h4>Время рассылки</h4></th>
-                                    <th><h4>Статус рассылки</h4></th>
-                                    <th><h4>Переодичность рассылки</h4></th>
-                                    <th><h4>Подробности рассылки</h4></th>
-                                    <th><h4>Редактирование рассылки</h4></th>
+                                    <td>{{ object.start_time }}</td>
+                                    <td scope="col">{{ object.end_time }}</td>
+                                    <td scope="col">{{ object.periodicity }}</td>
+                                    <td scope="col">{{ object.status }}</td>
+                                    <td>
+                                        <div class="text-center">
+                                            <a href="{% url 'service:mailing_detail' object.pk %}" class="btn btn-lg btn-primary">Подробная информация</a>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="text-center">
+                                            <a href="{% url 'service:mailing_update' object.pk %}" class="btn btn-lg btn-warning">Исправить</a>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="text-center">
+                                            <a href="{% url 'service:mailing_delete' object.pk %}" class="btn btn-lg btn-danger">Удалить</a>
+                                        </div>
+                                    </td>
 
                                 </tr>
 
+
+
+
+                                {% elif user.is_staff or user.is_superuser %}
                                 <tr>
+                                    <td>{{ object.start_time }}</td>
+                                    <td scope="col">{{ object.end_time }}</td>
+                                    <td scope="col">{{ object.periodicity }}</td>
+                                    <td scope="col">{{ object.status }}</td>
+                                    <td>
+                                        <div class="text-center">
+                                            <a href="{% url 'service:mailing_detail' object.pk %}" class="btn btn-lg btn-primary">Подробная информация</a>
+                                        </div>
+                                    </td>
 
-                                    <td><h4>{{ object.start_time }}</h4></td>
-                                    <td><h4>{{ object.status }}</h4></td>
-                                    <td><h4>{{ object.periodicity }}</h4></td>
+                                    <td>
+                                        <div class="text-center">
+                                            <a href="{% url 'service:mailing_update' object.pk %}" class="btn btn-lg btn-warning">Исправить</a>
+                                        </div>
+                                    </td>
 
-
-                                    <td><h4>
-
-                                        <a href="{% url 'service:mailing_detail' object.pk %}" class="btn btn-lg btn-primary">Подробно</a>
-
-                                    </h4></td>
-                                    <td><h4>
-
-                                        <a class="btn btn-lg btn-warning"
-                                           href="{% url 'service:mailing_update' object.pk %}">Исправить</a>
-
-
-                                    </h4></td>
-
-
+                                    {% if user.is_superuser %}
+                                    <td>
+                                        <div class="text-center">
+                                            <a href="{% url 'service:mailing_delete' object.pk %}" class="btn btn-lg btn-danger">Удалить</a>
+                                        </div>
+                                    </td>
+                                    {% endif %}
                                 </tr>
+                                {% endif %}
+                            {% endfor %}
 
-                            </table>
-                        {% endif %}
-                    {% endfor %}
-                </div>
+                 </table>
+
             </div>
         </div>
     </div>
 </div>
+
 {% endblock %}

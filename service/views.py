@@ -69,10 +69,11 @@ class ClientDetailView(LoginRequiredMixin, DetailView):
     success_url = reverse_lazy('service:clients_list')
 
 
-class ClientDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+class ClientDeleteView(LoginRequiredMixin, DeleteView):
     model = Client
     success_url = reverse_lazy('service:clients_list')
-    permission_required = 'service.delete_client'
+
+
 
 
 class MailingListView(LoginRequiredMixin, ListView):
@@ -144,11 +145,11 @@ class MailingUpdateView(LoginRequiredMixin, UpdateView):
             raise PermissionDenied
 
 
-class MailingDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+class MailingDeleteView(LoginRequiredMixin, DeleteView):
     model = MailingSettings
     template_name = 'service/mailing_confirm_delete.html'
     success_url = reverse_lazy('service:mailing_list')
-    permission_required = 'service.delete_mailing_settings'
+
 
 
 class MessageCreateView(LoginRequiredMixin, CreateView):
@@ -189,8 +190,8 @@ class MessageUpdateView(LoginRequiredMixin, UpdateView):
             raise PermissionDenied
 
 
-class MessageDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+class MessageDeleteView(LoginRequiredMixin, DeleteView):
     model = Message
     permission_required = 'service.delete_message'
 
-    success_url = reverse_lazy('service:message_list')
+
